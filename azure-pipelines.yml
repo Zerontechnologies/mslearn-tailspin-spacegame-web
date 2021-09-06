@@ -4,10 +4,10 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- 'main'
+- '*'
 
 pool:
-  vmImage:  'ubuntu-20.04'
+  vmImage: 'ubuntu-20.04'
   demands:
   - npm
 
@@ -18,16 +18,16 @@ variables:
 
 steps:
 - task: UseDotNet@2
-  displayName:  'Use .NET SDK $(dotnetSdkVersion)'
+  displayName: 'Use .NET SDK $(dotnetSdkVersion)'
   inputs:
-    version:  '$(dotnetSdkVersion)'
+    version: '$(dotnetSdkVersion)'
 
 - task: Npm@1
-  displayName:  'Run npm install'
+  displayName: 'Run npm install'
   inputs:
-    verbos: false
+    verbose: false
 
-- script: './node_modules/.bin/node-sass $(wwwrotDir) --output $(wwwrootDir)'
+- script: './node_modules/.bin/node-sass $(wwwrootDir) --output $(wwwrootDir)'
   displayName: 'Compile Sass assets'
 
 - task: gulp@1
@@ -61,8 +61,7 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
-  condition: succeeded()
-# trigger:
+  condition: succeeded()# trigger:
 # - main
 
 # pool:
